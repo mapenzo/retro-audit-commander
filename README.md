@@ -104,7 +104,9 @@ Las versiones publicadas incluyen ejecutables nativos por plataforma, por lo que
 
 Cada binario se compila en su plataforma de destino: Windows, Linux y macOS requieren artefactos independientes. Un binario generado desde Linux o WSL no es compatible con Windows ni macOS.
 
-Para quienes mantienen el proyecto, `pyproject.toml` declara el grupo `dev` y `packaging/retro_audit.spec` concentra la configuración de PyInstaller. La automatización de release ejecuta pruebas, genera el paquete, comprueba `retro-audit --version` y publica hashes SHA-256 junto a un SBOM CycloneDX. Los informes siguen guardándose en `reports/` relativo al directorio desde el que se inicia el ejecutable; úsalo desde una ubicación escribible.
+Para quienes mantienen el proyecto, `pyproject.toml` declara el grupo `dev` y `packaging/retro_audit.spec` concentra la configuración de PyInstaller. La automatización de release ejecuta pruebas, genera el paquete, comprueba `retro-audit --version` y publica hashes SHA-256 junto a un SBOM CycloneDX. El proceso completo de compilación local, sus opciones y los criterios de distribución están documentados en [BUILD.md](BUILD.md).
+
+Los informes siguen guardándose en `reports/` relativo al directorio desde el que se inicia el ejecutable; úsalo desde una ubicación escribible. Cada plataforma debe compilarse nativamente: Linux/WSL produce Linux, no Windows ni macOS.
 
 Antes de distribuir públicamente un artefacto, se debe adjuntar la licencia, conservar el aviso de uso autorizado, publicar su hash y firmarlo con el mecanismo de la plataforma (Authenticode en Windows y Developer ID/notarización en macOS). También se recomienda adjuntar un SBOM de las dependencias bloqueadas.
 
