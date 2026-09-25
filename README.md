@@ -98,6 +98,16 @@ Consulta `ARCHITECTURE.md` para las reglas de dependencia y `SECURITY.md` para e
 
 Instala las dependencias del proyecto con tu gestor de entornos Python preferido y ejecuta `main.py`. La interfaz incluye atajos: `r` guarda el informe actual y `Ctrl+C` sale.
 
+## Distribución ejecutable
+
+Las versiones publicadas incluyen ejecutables nativos por plataforma, por lo que no requieren una instalación previa de Python. El flujo de distribución crea inicialmente una carpeta ejecutable (`onedir`) llamada `retro-audit`; se conserva así para facilitar diagnóstico y soporte. Los artefactos contienen el ejecutable, sus dependencias y la metadata necesaria para mostrar la versión correctamente.
+
+Cada binario se compila en su plataforma de destino: Windows, Linux y macOS requieren artefactos independientes. Un binario generado desde Linux o WSL no es compatible con Windows ni macOS.
+
+Para quienes mantienen el proyecto, `pyproject.toml` declara el grupo `dev` y `packaging/retro_audit.spec` concentra la configuración de PyInstaller. La automatización de release ejecuta pruebas, genera el paquete, comprueba `retro-audit --version` y publica hashes SHA-256 junto a un SBOM CycloneDX. Los informes siguen guardándose en `reports/` relativo al directorio desde el que se inicia el ejecutable; úsalo desde una ubicación escribible.
+
+Antes de distribuir públicamente un artefacto, se debe adjuntar la licencia, conservar el aviso de uso autorizado, publicar su hash y firmarlo con el mecanismo de la plataforma (Authenticode en Windows y Developer ID/notarización en macOS). También se recomienda adjuntar un SBOM de las dependencias bloqueadas.
+
 ## Alcance
 
 No realiza explotación, fuerza bruta, suplantación ARP, captura de tráfico, enumeración de rutas ni envío de payloads. La verificación SSH acepta una sola credencial introducida por el operador y hace exactamente una llamada de conexión, sin agentes, búsqueda de claves ni reintentos. Las contraseñas no aparecen en eventos ni resultados. El escaneo está limitado a puertos comunes definidos en el código y usa conexiones TCP con timeout breve. Las comprobaciones web son pasivas y respetan las respuestas `HTTP 429` sin reintentos automáticos.

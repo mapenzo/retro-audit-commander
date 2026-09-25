@@ -11,7 +11,8 @@
 
 ```mermaid
 flowchart TD
-    Entry[main.py · composición] --> Factory[AuditServiceFactory]
+    Entry[retro_audit.__main__ · composición] --> Factory[AuditServiceFactory]
+    Legacy[main.py · delegador compatible] --> Entry
     Factory --> Registry[ToolRegistry]
     Factory --> Reports[ReportWriter]
     Registry --> TCP[NetworkAuditService]
@@ -34,7 +35,7 @@ flowchart TD
 
 ## Reglas de dependencia
 
-1. `main.py` sólo compone y arranca la aplicación.
+1. `retro_audit.__main__` sólo valida las opciones de consola, compone y arranca la aplicación; `main.py` conserva el punto de entrada histórico delegando en él.
 2. `ui/` depende de protocolos en `contracts.py`, nunca de herramientas concretas.
 3. `tools/` depende de contratos y validación, nunca de Textual.
 4. `factory.py` es el único módulo que conoce todas las implementaciones concretas.
