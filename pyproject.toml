@@ -14,7 +14,24 @@ dependencies = [
 	"textual>=1.0.0",
 ]
 
+[project.scripts]
+retro-audit = "retro_audit.__main__:main"
+
 [project.urls]
 Homepage = "https://github.com/mapenzo/retro-audit-commander"
 Repository = "https://github.com/mapenzo/retro-audit-commander"
 Issues = "https://github.com/mapenzo/retro-audit-commander/issues"
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["retro_audit"]
+
+[dependency-groups]
+dev = [
+	"cyclonedx-bom>=5",
+	"pyinstaller>=6.11,<7",
+	"pytest>=8.3,<9",
+]
